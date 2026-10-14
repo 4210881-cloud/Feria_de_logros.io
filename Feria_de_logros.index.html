@@ -1,0 +1,1559 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Mundo Matemático | Ecuaciones</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --fondo: #080d1c;
+    --panel: #111a30;
+    --panel2: #16223b;
+    --texto: #f4f7ff;
+    --suave: #aab8d2;
+    --cian: #51f0e0;
+    --azul: #6ca6ff;
+    --violeta: #bb91ff;
+    --rosa: #ff8fc7;
+    --borde: rgba(143,178,255,.17);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.75;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 10% 15%, #224d8750, transparent 38%),
+        radial-gradient(ellipse at 90% 45%, #702e8b25, transparent 35%),
+        radial-gradient(ellipse at 50% 100%, #087e7950, transparent 40%);
+}
+
+a {
+    color: inherit;
+}
+
+header {
+    padding: 20px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--borde);
+    background: #080d1cdb;
+}
+
+.logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.logo span {
+    color: var(--cian);
+}
+
+.logo small {
+    display: block;
+    color: var(--suave);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.header-badge {
+    padding: 8px 15px;
+    border: 1px solid #51f0e055;
+    border-radius: 30px;
+    color: var(--cian);
+    font-size: .8rem;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 12px 15px;
+    background: #080d1cf2;
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--borde);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--suave);
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-size: .88rem;
+    transition: .25s;
+}
+
+nav a:hover {
+    background: #51f0e018;
+    color: var(--cian);
+}
+
+.hero {
+    min-height: 580px;
+    padding: 85px 8% 75px;
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.etiqueta {
+    display: inline-block;
+    color: var(--cian);
+    border: 1px solid #51f0e055;
+    border-radius: 30px;
+    padding: 6px 13px;
+    font-size: .78rem;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    line-height: 1.12;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+}
+
+.gradiente {
+    background: linear-gradient(100deg, var(--cian), var(--azul), var(--violeta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: var(--suave);
+    max-width: 620px;
+    font-size: 1.05rem;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.boton {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 21px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: .25s;
+}
+
+.boton-principal {
+    background: var(--cian);
+    color: #07131b;
+}
+
+.boton-secundario {
+    border: 1px solid var(--borde);
+    background: #ffffff08;
+}
+
+.boton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px #51f0e022;
+}
+
+.matematicas {
+    position: relative;
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orbita {
+    position: absolute;
+    width: 290px;
+    height: 290px;
+    border: 1px solid #51f0e044;
+    border-radius: 50%;
+    animation: girar 24s linear infinite;
+}
+
+.orbita::before,
+.orbita::after {
+    content: "";
+    position: absolute;
+    inset: 25px;
+    border: 1px dashed #6ca6ff65;
+    border-radius: 50%;
+}
+
+.orbita::after {
+    inset: 60px;
+    border-color: #bb91ff70;
+}
+
+.centro {
+    width: 175px;
+    height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(145deg, #1c3655, #141b37);
+    border: 1px solid #51f0e077;
+    border-radius: 35px;
+    box-shadow: 0 0 65px #51f0e01b;
+    transform: rotate(-5deg);
+    z-index: 2;
+}
+
+.centro strong {
+    font-size: 3.5rem;
+    color: var(--cian);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.centro span {
+    color: var(--suave);
+    font-size: .8rem;
+}
+
+.simbolo {
+    position: absolute;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    animation: flotar 4s ease-in-out infinite;
+}
+
+.s1 { top: 10%; left: 12%; color: var(--violeta); }
+.s2 { top: 15%; right: 8%; color: var(--cian); animation-delay: 1s; }
+.s3 { bottom: 10%; left: 10%; color: var(--rosa); animation-delay: 2s; }
+.s4 { bottom: 12%; right: 12%; color: var(--azul); animation-delay: 1.5s; }
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-13px); }
+}
+
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 0 8% 55px;
+}
+
+.estadistica {
+    background: #111a30aa;
+    border: 1px solid var(--borde);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.estadistica strong {
+    display: block;
+    font-size: 1.8rem;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--cian);
+}
+
+.estadistica span {
+    color: var(--suave);
+    font-size: .85rem;
+}
+
+section {
+    padding: 75px 8%;
+    scroll-margin-top: 75px;
+}
+
+.fondo-alterno {
+    background: #10192a88;
+    border-top: 1px solid #ffffff08;
+    border-bottom: 1px solid #ffffff08;
+}
+
+.titulo-seccion {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 42px;
+}
+
+.mini-titulo {
+    color: var(--cian);
+    font-size: .77rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.titulo-seccion h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.25;
+    margin: 12px 0 15px;
+}
+
+.titulo-seccion p {
+    color: var(--suave);
+}
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.tarjeta {
+    background: linear-gradient(145deg, #15213a, #0e172a);
+    padding: 25px;
+    border: 1px solid var(--borde);
+    border-radius: 17px;
+    transition: .3s;
+}
+
+.tarjeta:hover {
+    transform: translateY(-5px);
+    border-color: #51f0e077;
+    box-shadow: 0 12px 35px #00000022;
+}
+
+.icono {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    background: #51f0e015;
+    border: 1px solid #51f0e02b;
+    border-radius: 14px;
+    font-size: 1.65rem;
+    margin-bottom: 17px;
+}
+
+h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+}
+
+.tarjeta p,
+.tarjeta li {
+    color: var(--suave);
+    font-size: .94rem;
+}
+
+.formula {
+    padding: 18px;
+    margin: 17px 0;
+    text-align: center;
+    border-radius: 12px;
+    background: #080f20;
+    border: 1px dashed #51f0e055;
+    color: var(--cian);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.9;
+}
+
+.formula small {
+    display: block;
+    color: var(--suave);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 400;
+}
+
+.intro {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    color: var(--suave);
+    text-align: center;
+}
+
+.pasos {
+    padding-left: 22px;
+    margin-top: 15px;
+}
+
+.pasos li {
+    margin-bottom: 8px;
+}
+
+.ejemplo {
+    padding: 16px;
+    border-left: 3px solid var(--cian);
+    background: #51f0e00b;
+    border-radius: 5px 12px 12px 5px;
+    margin-top: 15px;
+}
+
+.ejemplo strong {
+    color: var(--cian);
+}
+
+.tabla-contenedor {
+    overflow-x: auto;
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+}
+
+table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background: #111a30;
+}
+
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--borde);
+}
+
+th {
+    background: #1a2a46;
+    color: var(--cian);
+}
+
+td {
+    color: var(--suave);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.aplicaciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.aplicacion {
+    background: #111a30;
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+}
+
+.aplicacion span {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.aplicacion p {
+    font-size: .85rem;
+    color: var(--suave);
+}
+
+.expositor {
+    position: relative;
+    overflow: hidden;
+}
+
+.expositor::after {
+    content: attr(data-numero);
+    position: absolute;
+    right: 8px;
+    bottom: -40px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 8rem;
+    font-weight: 700;
+    color: #ffffff06;
+    pointer-events: none;
+}
+
+.expositor .persona {
+    color: var(--cian);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.expositor ul {
+    padding-left: 20px;
+}
+
+.expositor li {
+    margin-bottom: 7px;
+}
+
+.actividad {
+    max-width: 950px;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid var(--borde);
+    border-radius: 20px;
+    background: linear-gradient(145deg, #15213a, #0d1528);
+}
+
+.progreso-contenedor {
+    height: 7px;
+    background: #ffffff12;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0 25px;
+}
+
+#progreso {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--cian), var(--violeta));
+    transition: width .3s;
+}
+
+.pregunta {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.pregunta h3 {
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.numero-pregunta {
+    color: var(--cian);
+    margin-right: 7px;
+}
+
+.opciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 9px;
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 13px;
+    border: 1px solid var(--borde);
+    background: #ffffff04;
+    border-radius: 10px;
+    color: var(--suave);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.opcion:hover {
+    border-color: #51f0e077;
+    color: white;
+}
+
+.opcion:has(input:checked) {
+    border-color: var(--cian);
+    background: #51f0e011;
+    color: white;
+}
+
+.opcion input {
+    accent-color: #51f0e0;
+}
+
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+button {
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    transition: .2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-calificar {
+    color: #07131b;
+    background: var(--cian);
+}
+
+.btn-reiniciar {
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    background: transparent;
+}
+
+#resultado {
+    display: none;
+    padding: 22px;
+    margin-top: 22px;
+    border: 1px solid #51f0e055;
+    border-radius: 13px;
+    background: #51f0e009;
+}
+
+#resultado h3 {
+    color: var(--cian);
+}
+
+#detalle {
+    color: var(--suave);
+    margin-top: 12px;
+}
+
+#detalle li {
+    margin: 8px 0;
+}
+
+.correcta {
+    color: var(--cian);
+}
+
+.incorrecta {
+    color: var(--rosa);
+}
+
+.nota {
+    color: var(--suave);
+    font-size: .86rem;
+    margin-top: 15px;
+}
+
+.cierre {
+    max-width: 800px;
+    text-align: center;
+    margin: auto;
+    padding: 35px;
+    background: linear-gradient(135deg, #142b3c, #1b1838);
+    border: 1px solid #51f0e044;
+    border-radius: 20px;
+}
+
+.cierre h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.cierre p {
+    color: var(--suave);
+}
+
+footer {
+    text-align: center;
+    padding: 35px 8%;
+    background: #070b16;
+    border-top: 1px solid var(--borde);
+    color: var(--suave);
+    font-size: .85rem;
+}
+
+footer strong {
+    color: var(--cian);
+}
+
+@media (max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 60px;
+        gap: 15px;
+    }
+
+    .matematicas {
+        min-height: 310px;
+    }
+
+    .estadisticas {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    section {
+        padding: 55px 6%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 17px 5%;
+    }
+
+    .header-badge {
+        font-size: .68rem;
+    }
+
+    nav {
+        gap: 2px;
+    }
+
+    nav a {
+        padding: 7px;
+        font-size: .78rem;
+    }
+
+    .hero h1 {
+        letter-spacing: -1px;
+    }
+
+    .estadisticas {
+        gap: 8px;
+    }
+
+    .estadistica {
+        padding: 13px 5px;
+    }
+
+    .estadistica strong {
+        font-size: 1.4rem;
+    }
+
+    .estadistica span {
+        font-size: .7rem;
+    }
+
+    .actividad {
+        padding: 17px;
+    }
+
+    .formula {
+        font-size: 1.1rem;
+    }
+
+    .orbita {
+        width: 250px;
+        height: 250px;
+    }
+
+    .centro {
+        width: 145px;
+        height: 145px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+         Bienvenidos <3
+        <small>Aprendamos juntos sobre las matematicas</small>
+    </div>
+    <div class="header-badge">✦ Feria de logros 2026</div>
+</header>
+
+<nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#ecuaciones">Ecuaciones</a>
+    <a href="#segundo-grado">Segundo grado</a>
+    <a href="#sistemas">Sistemas</a>
+    <a href="#metodos">Métodos</a>
+    <a href="#aplicaciones">Aplicaciones</a>
+    <a href="#exposicion">Exposición</a>
+    <a href="#ejercicios">Ejercicios</a>
+</nav>
+
+<main>
+
+<div class="hero" id="inicio">
+    <div>
+        <span class="etiqueta">✦ EXPLORA EL UNIVERSO DE LOS NÚMEROS</span>
+        <h1>Ecuaciones y <span class="gradiente">Sistemas de Ecuaciones</span></h1>
+        <p>
+            Descubre cómo las matemáticas nos permiten encontrar valores
+            desconocidos, resolver problemas y comprender situaciones de la
+            vida cotidiana. Aprende mediante ejemplos, métodos y desafíos
+            interactivos.
+        </p>
+        <div class="botones">
+            <a href="#ecuaciones" class="boton boton-principal">Comenzar a aprender ↗</a>
+            <a href="#ejercicios" class="boton boton-secundario">Resolver ejercicios ∑</a>
+        </div>
+    </div>
+
+    <div class="matematicas" aria-label="Decoración de símbolos matemáticos">
+        <div class="orbita"></div>
+        <span class="simbolo s1">π</span>
+        <span class="simbolo s2">√x</span>
+        <span class="simbolo s3">∞</span>
+        <span class="simbolo s4">∑</span>
+        <div class="centro">
+            <strong>∑</strong>
+            <span>Matemáticas en acción</span>
+        </div>
+    </div>
+</div>
+
+
+
+<section>
+    <div class="titulo-seccion">
+        <span class="mini-titulo">BIENVENIDOS</span>
+        <h2>¿Qué descubrirás en <span class="gradiente">este recorrido?</span></h2>
+        <p>
+            Conocerás las bases de las ecuaciones, aprenderás a resolver
+            sistemas de dos incógnitas y pondrás a prueba tus conocimientos
+            con ejercicios prácticos.
+        </p>
+    </div>
+
+    <div class="tarjetas">
+        <article class="tarjeta">
+            <div class="icono">📘</div>
+            <h3>Conceptos básicos</h3>
+            <p>
+                Identifica las incógnitas, los coeficientes, las constantes
+                y la igualdad matemática.
+            </p>
+        </article>
+        <article class="tarjeta">
+            <div class="icono">🧮</div>
+            <h3>Resolución paso a paso</h3>
+            <p>
+                Aprende a despejar variables y comprobar que una solución
+                satisface la ecuación.
+            </p>
+        </article>
+        <article class="tarjeta">
+            <div class="icono">📊</div>
+            <h3>Sistemas de ecuaciones</h3>
+            <p>
+                Descubre cómo encontrar dos o más valores desconocidos
+                mediante varias ecuaciones relacionadas.
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="fondo-alterno" id="ecuaciones">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">FUNDAMENTOS</span>
+        <h2>¿Qué es una <span class="gradiente">ecuación?</span></h2>
+        <p>
+            Una ecuación es una igualdad matemática que contiene uno o más
+            valores desconocidos llamados incógnitas. Resolverla consiste
+            en encontrar los valores que hacen verdadera esa igualdad.
+        </p>
+    </div>
+
+    <div class="tarjetas">
+        <article class="tarjeta">
+            <h3>Los elementos de una ecuación</h3>
+            <div class="formula">3x + 5 = 20</div>
+            <ul class="pasos">
+                <li><strong>Incógnita:</strong> x, el valor que buscamos.</li>
+                <li><strong>Coeficiente:</strong> 3, el número que multiplica a x.</li>
+                <li><strong>Constantes:</strong> 5 y 20, números conocidos.</li>
+                <li><strong>Signo de igualdad:</strong> =, indica que ambos lados tienen el mismo valor.</li>
+            </ul>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Ejemplo 1: ecuación sencilla</h3>
+            <div class="formula">x + 5 = 12</div>
+            <ol class="pasos">
+                <li>Restamos 5 a ambos lados.</li>
+                <li>x = 12 − 5</li>
+                <li><strong>x = 7</strong></li>
+            </ol>
+            <div class="ejemplo">
+                <strong>Comprobación:</strong> 7 + 5 = 12 ✓
+            </div>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Ejemplo 2: multiplicación</h3>
+            <div class="formula">3x = 18</div>
+            <ol class="pasos">
+                <li>Dividimos ambos lados entre 3.</li>
+                <li>x = 18 ÷ 3</li>
+                <li><strong>x = 6</strong></li>
+            </ol>
+            <div class="ejemplo">
+                <strong>Comprobación:</strong> 3 × 6 = 18 ✓
+            </div>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Ejemplo 3: dos operaciones</h3>
+            <div class="formula">2x + 4 = 14</div>
+            <ol class="pasos">
+                <li>Restamos 4: 2x = 10.</li>
+                <li>Dividimos entre 2.</li>
+                <li><strong>x = 5</strong></li>
+            </ol>
+            <div class="ejemplo">
+                <strong>Comprobación:</strong> 2(5) + 4 = 14 ✓
+            </div>
+        </article>
+    </div>
+
+    <div class="ejemplo" style="max-width:850px;margin:30px auto 0">
+        <strong>Regla importante:</strong> lo que hacemos en un lado de la
+        igualdad también debemos hacerlo en el otro para conservarla.
+        Las operaciones inversas ayudan a despejar la incógnita.
+    </div>
+</section>
+
+<section id="segundo-grado">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">NUEVO DESAFÍOS</span>
+        <h2>Ecuaciones de <span class="gradiente">segundo grado</span></h2>
+        <p>
+            Son ecuaciones en las que la incógnita aparece elevada al cuadrado.
+            Su forma general es ax² + bx + c = 0, donde a es diferente de cero.
+        </p>
+    </div>
+
+    <div class="tarjetas">
+        <article class="tarjeta">
+            <div class="icono">x²</div>
+            <h3>Forma general</h3>
+            <div class="formula">ax² + bx + c = 0</div>
+            <p>
+                a, b y c son coeficientes conocidos; x es la incógnita.
+                Estas ecuaciones pueden tener dos soluciones reales,
+                una solución real doble o ninguna solución real.
+            </p>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Ejemplo: x² − 9 = 0</h3>
+            <ol class="pasos">
+                <li>Sumamos 9 a ambos lados: x² = 9.</li>
+                <li>Calculamos la raíz cuadrada.</li>
+                <li><strong>x = 3 o x = −3.</strong></li>
+            </ol>
+            <div class="ejemplo">
+                Ambas soluciones funcionan: 3² − 9 = 0 y (−3)² − 9 = 0.
+            </div>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Fórmula general</h3>
+            <div class="formula">
+                x = (−b ± √(b² − 4ac)) / 2a
+            </div>
+            <p>
+                Permite calcular las soluciones de cualquier ecuación de
+                segundo grado. El discriminante b² − 4ac ayuda a determinar
+                cuántas soluciones reales existen.
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="fondo-alterno" id="sistemas">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">DOS INCÓGNITAS</span>
+        <h2>Sistemas de <span class="gradiente">ecuaciones</span></h2>
+        <p>
+            Un sistema es un conjunto de dos o más ecuaciones que comparten
+            incógnitas. Su solución debe cumplir todas las ecuaciones
+            simultáneamente.
+        </p>
+    </div>
+
+    <div class="tarjetas">
+        <article class="tarjeta">
+            <h3>Observa el sistema</h3>
+            <div class="formula">
+                x + y = 10<br>
+                x − y = 2
+            </div>
+            <p>
+                Buscamos dos números cuya suma sea 10 y cuya diferencia
+                sea 2.
+            </p>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Resolución paso a paso</h3>
+            <ol class="pasos">
+                <li>Sumamos las ecuaciones: 2x = 12.</li>
+                <li>Despejamos: x = 6.</li>
+                <li>Sustituimos en x + y = 10.</li>
+                <li>6 + y = 10.</li>
+                <li><strong>y = 4.</strong></li>
+            </ol>
+            <div class="formula">Solución: (6, 4)</div>
+        </article>
+
+        <article class="tarjeta">
+            <h3>Comprobación</h3>
+            <div class="formula">
+                6 + 4 = 10 ✓<br>
+                6 − 4 = 2 ✓
+            </div>
+            <p>
+                La pareja (6, 4) cumple las dos ecuaciones. Por eso
+                es la solución del sistema.
+            </p>
+        </article>
+    </div>
+
+    <div class="ejemplo" style="max-width:850px;margin:30px auto 0">
+        <strong>Aplicación cotidiana:</strong> si dos cuadernos y un lápiz
+        cuestan cierta cantidad, y otra combinación tiene un precio diferente,
+        podemos construir un sistema para descubrir el precio de cada producto.
+    </div>
+</section>
+
+<section id="metodos">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">ESTRATEGIAS</span>
+        <h2>Métodos para resolver <span class="gradiente">sistemas</span></h2>
+        <p>
+            Hay diferentes procedimientos para encontrar las incógnitas.
+            Podemos elegir el que resulte más sencillo según las ecuaciones.
+        </p>
+    </div>
+
+    <div class="tarjetas">
+        <article class="tarjeta">
+            <div class="icono">➕</div>
+            <h3>1. Método de reducción</h3>
+            <p>
+                Se suman o restan las ecuaciones para eliminar una incógnita.
+                Después se despeja la variable restante.
+            </p>
+            <div class="formula">
+                x + y = 8<br>
+                x − y = 2
+            </div>
+            <ol class="pasos">
+                <li>Sumamos: 2x = 10.</li>
+                <li>x = 5.</li>
+                <li>Sustituimos: 5 + y = 8.</li>
+                <li><strong>y = 3.</strong></li>
+            </ol>
+        </article>
+
+        <article class="tarjeta">
+            <div class="icono">🔄</div>
+            <h3>2. Método de sustitución</h3>
+            <p>
+                Despejamos una variable en una ecuación y sustituimos
+                su expresión en la otra.
+            </p>
+            <div class="formula">
+                y = 6 − x<br>
+                2x + y = 9
+            </div>
+            <ol class="pasos">
+                <li>Sustituimos: 2x + 6 − x = 9.</li>
+                <li>x + 6 = 9.</li>
+                <li>x = 3.</li>
+                <li><strong>y = 3.</strong></li>
+            </ol>
+        </article>
+
+        <article class="tarjeta">
+            <div class="icono">⚖️</div>
+            <h3>3. Método de igualación</h3>
+            <p>
+                Despejamos la misma incógnita en ambas ecuaciones
+                e igualamos las expresiones obtenidas.
+            </p>
+            <div class="formula">
+                y = 2x<br>
+                y = x + 3
+            </div>
+            <ol class="pasos">
+                <li>Igualamos: 2x = x + 3.</li>
+                <li>x = 3.</li>
+                <li>Sustituimos: y = 2(3).</li>
+                <li><strong>y = 6.</strong></li>
+            </ol>
+        </article>
+
+        <article class="tarjeta">
+            <div class="icono">📈</div>
+            <h3>4. Método gráfico</h3>
+            <p>
+                Representamos cada ecuación como una recta en el plano
+                cartesiano. La intersección indica la solución cuando
+                existe un único punto de cruce.
+            </p>
+            <div class="formula">
+                y = x + 1<br>
+                y = −x + 5
+            </div>
+            <p>
+                Igualando las expresiones obtenemos x = 2 y, por tanto,
+                y = 3. Las rectas se cruzan en <strong>(2, 3).</strong>
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="fondo-alterno">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">INTERPRETACIÓN</span>
+        <h2>Tipos de soluciones de <span class="gradiente">un sistema</span></h2>
+        <p>
+            Según la relación entre las ecuaciones, un sistema puede tener
+            una solución, infinitas soluciones o ninguna.
+        </p>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Características</th>
+                    <th>Resultado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sistema compatible determinado</td>
+                    <td>Las rectas se cruzan en un solo punto.</td>
+                    <td>Una solución.</td>
+                </tr>
+                <tr>
+                    <td>Sistema compatible indeterminado</td>
+                    <td>Las ecuaciones representan la misma recta.</td>
+                    <td>Infinitas soluciones.</td>
+                </tr>
+                <tr>
+                    <td>Sistema incompatible</td>
+                    <td>Las rectas son paralelas y diferentes.</td>
+                    <td>Ninguna solución.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="aplicaciones">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">MATEMÁTICAS EN ACCIÓN</span>
+        <h2>¿Dónde se utilizan <span class="gradiente">las ecuaciones?</span></h2>
+        <p>
+            Las ecuaciones no solo aparecen en los libros. También nos ayudan
+            a modelar situaciones reales y tomar decisiones.
+        </p>
+    </div>
+
+    <div class="aplicaciones">
+        <article class="aplicacion">
+            <span>🛒</span>
+            <h3>Economía</h3>
+            <p>Calcular precios, presupuestos, ganancias y gastos.</p>
+        </article>
+        <article class="aplicacion">
+            <span>🏗️</span>
+            <h3>Ingeniería</h3>
+            <p>Determinar medidas, distancias y relaciones entre magnitudes.</p>
+        </article>
+        <article class="aplicacion">
+            <span>💻</span>
+            <h3>Programación</h3>
+            <p>Crear algoritmos, calcular valores y resolver problemas lógicos.</p>
+        </article>
+        <article class="aplicacion">
+            <span>🔬</span>
+            <h3>Ciencias</h3>
+            <p>Estudiar fenómenos físicos y expresar relaciones matemáticas.</p>
+        </article>
+        <article class="aplicacion">
+            <span>📐</span>
+            <h3>Arquitectura</h3>
+            <p>Calcular dimensiones, áreas y proporciones.</p>
+        </article>
+    </div>
+
+    <div class="ejemplo" style="max-width:850px;margin:30px auto 0">
+        <strong>Problema cotidiano:</strong> una persona compra dos cuadernos
+        del mismo precio y paga $6 en total. Si x representa el precio de cada
+        cuaderno, la ecuación es 2x = 6. Al dividir entre 2, obtenemos
+        <strong>x = $3.</strong>
+    </div>
+</section>
+
+
+
+<section id="ejercicios">
+    <div class="titulo-seccion">
+        <span class="mini-titulo">RETO INTERACTIVO</span>
+        <h2>¡Demuestra lo que <span class="gradiente">sabes!</span></h2>
+        <p>
+            Resuelve los 12 ejercicios. Selecciona una respuesta para cada
+            pregunta y pulsa el botón para conocer tu puntuación.
+        </p>
+    </div>
+
+    <div class="actividad">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <strong>🧠 Desafío matemático</strong>
+            <span id="contador" style="color:var(--cian)">0 de 12 respondidas</span>
+        </div>
+
+        <div class="progreso-contenedor">
+            <div id="progreso"></div>
+        </div>
+
+        <form id="quiz">
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">01.</span>¿Cuál es el valor de x en x + 8 = 15?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p1" value="a"> x = 5</label>
+                    <label class="opcion"><input type="radio" name="p1" value="b"> x = 7</label>
+                    <label class="opcion"><input type="radio" name="p1" value="c"> x = 8</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">02.</span>Si 3x = 21, ¿cuánto vale x?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p2" value="a"> x = 7</label>
+                    <label class="opcion"><input type="radio" name="p2" value="b"> x = 18</label>
+                    <label class="opcion"><input type="radio" name="p2" value="c"> x = 24</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">03.</span>Resuelve: 2x + 4 = 14.</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p3" value="a"> x = 9</label>
+                    <label class="opcion"><input type="radio" name="p3" value="b"> x = 4</label>
+                    <label class="opcion"><input type="radio" name="p3" value="c"> x = 5</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">04.</span>¿Cuál es la solución de 5x − 10 = 15?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p4" value="a"> x = 1</label>
+                    <label class="opcion"><input type="radio" name="p4" value="b"> x = 5</label>
+                    <label class="opcion"><input type="radio" name="p4" value="c"> x = 7</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">05.</span>Si 2x + 3 = 11, ¿cuánto vale x?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p5" value="a"> x = 4</label>
+                    <label class="opcion"><input type="radio" name="p5" value="b"> x = 7</label>
+                    <label class="opcion"><input type="radio" name="p5" value="c"> x = 8</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">06.</span>Resuelve: x ÷ 3 = 4.</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p6" value="a"> x = 1</label>
+                    <label class="opcion"><input type="radio" name="p6" value="b"> x = 7</label>
+                    <label class="opcion"><input type="radio" name="p6" value="c"> x = 12</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">07.</span>En el sistema x + y = 10 y x − y = 2, ¿cuál es la solución?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p7" value="a"> x = 4, y = 6</label>
+                    <label class="opcion"><input type="radio" name="p7" value="b"> x = 6, y = 4</label>
+                    <label class="opcion"><input type="radio" name="p7" value="c"> x = 5, y = 5</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">08.</span>Resuelve el sistema x + y = 8 y x − y = 2.</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p8" value="a"> x = 4, y = 4</label>
+                    <label class="opcion"><input type="radio" name="p8" value="b"> x = 3, y = 5</label>
+                    <label class="opcion"><input type="radio" name="p8" value="c"> x = 5, y = 3</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">09.</span>Si y = 6 − x y 2x + y = 9, ¿cuál es la solución?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p9" value="a"> x = 3, y = 3</label>
+                    <label class="opcion"><input type="radio" name="p9" value="b"> x = 6, y = 0</label>
+                    <label class="opcion"><input type="radio" name="p9" value="c"> x = 2, y = 4</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">10.</span>Resuelve el sistema x + y = 7 y x − y = 1.</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p10" value="a"> x = 3, y = 4</label>
+                    <label class="opcion"><input type="radio" name="p10" value="b"> x = 4, y = 3</label>
+                    <label class="opcion"><input type="radio" name="p10" value="c"> x = 7, y = 1</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">11.</span>¿Cuántas soluciones tiene un sistema con dos rectas paralelas diferentes?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p11" value="a"> Una solución</label>
+                    <label class="opcion"><input type="radio" name="p11" value="b"> Infinitas soluciones</label>
+                    <label class="opcion"><input type="radio" name="p11" value="c"> Ninguna solución</label>
+                </div>
+            </div>
+
+            <div class="pregunta">
+                <h3><span class="numero-pregunta">12.</span>¿Cuáles son las soluciones reales de x² − 9 = 0?</h3>
+                <div class="opciones">
+                    <label class="opcion"><input type="radio" name="p12" value="a"> Solo x = 3</label>
+                    <label class="opcion"><input type="radio" name="p12" value="b"> x = 3 y x = −3</label>
+                    <label class="opcion"><input type="radio" name="p12" value="c"> x = 9 y x = −9</label>
+                </div>
+            </div>
+
+            <div class="acciones">
+                <button class="btn-calificar" type="button" onclick="calificar()">Comprobar respuestas ✓</button>
+                <button class="btn-reiniciar" type="reset">Reiniciar actividad ↻</button>
+            </div>
+
+            <p class="nota">
+                Consejo: intenta resolver cada ejercicio antes de seleccionar
+                la respuesta. Puedes usar papel y lápiz para realizar las operaciones.
+            </p>
+        </form>
+
+        <div id="resultado" aria-live="polite">
+            <h3 id="tituloResultado"></h3>
+            <p id="mensajeResultado"></p>
+            <ul id="detalle"></ul>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="cierre">
+        <span class="mini-titulo">CONCLUSIÓN</span>
+        <h2>¡Las matemáticas están en todas partes! <span class="gradiente">∑</span></h2>
+        <p>
+            Las ecuaciones y los sistemas de ecuaciones son herramientas
+            fundamentales para representar relaciones entre cantidades
+            desconocidas y resolver problemas. Su aprendizaje desarrolla
+            el razonamiento lógico, el análisis y la capacidad de encontrar
+            soluciones de forma ordenada.
+        </p>
+        <div class="formula">
+            Comprender + Practicar + Razonar = Aprender
+        </div>
+        <p>
+            Gracias por visitar nuestro proyecto. ¡Anímate a seguir explorando
+            el fascinante mundo de las matemáticas!
+        </p>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <h3><strong>∑ Mundo Matemático ∑</strong></h3>
+    <p>Aprendiendo matemáticas de una manera fácil, visual y divertida.</p>
+    <p>Proyecto educativo · Feria de logros 2026</p>
+    <p>Ecuaciones y Sistemas de Ecuaciones</p>
+</footer>
+
+<script>
+const respuestas = {
+    p1: "b",
+    p2: "a",
+    p3: "c",
+    p4: "b",
+    p5: "a",
+    p6: "c",
+    p7: "b",
+    p8: "c",
+    p9: "a",
+    p10: "b",
+    p11: "c",
+    p12: "b"
+};
+
+const explicaciones = {
+    p1: "x + 8 = 15. Restamos 8 y obtenemos x = 7.",
+    p2: "3x = 21. Dividimos entre 3 y obtenemos x = 7.",
+    p3: "2x + 4 = 14. Restamos 4 y dividimos entre 2: x = 5.",
+    p4: "5x − 10 = 15. Sumamos 10 y dividimos entre 5: x = 5.",
+    p5: "2x + 3 = 11. Restamos 3 y dividimos entre 2: x = 4.",
+    p6: "x ÷ 3 = 4. Multiplicamos por 3: x = 12.",
+    p7: "Al sumar las ecuaciones obtenemos 2x = 12. Así, x = 6 e y = 4.",
+    p8: "Al sumar las ecuaciones obtenemos 2x = 10. Así, x = 5 e y = 3.",
+    p9: "Sustituimos y = 6 − x en 2x + y = 9. Obtenemos x = 3 e y = 3.",
+    p10: "Al sumar las ecuaciones obtenemos 2x = 8. Así, x = 4 e y = 3.",
+    p11: "Dos rectas paralelas diferentes no se cruzan, por lo que el sistema no tiene solución.",
+    p12: "x² = 9. La raíz cuadrada puede ser 3 o −3; ambas soluciones satisfacen la ecuación."
+};
+
+const nombres = {
+    p1: "Ejercicio 1",
+    p2: "Ejercicio 2",
+    p3: "Ejercicio 3",
+    p4: "Ejercicio 4",
+    p5: "Ejercicio 5",
+    p6: "Ejercicio 6",
+    p7: "Ejercicio 7",
+    p8: "Ejercicio 8",
+    p9: "Ejercicio 9",
+    p10: "Ejercicio 10",
+    p11: "Ejercicio 11",
+    p12: "Ejercicio 12"
+};
+
+const quiz = document.getElementById("quiz");
+const contador = document.getElementById("contador");
+const progreso = document.getElementById("progreso");
+const resultado = document.getElementById("resultado");
+
+function actualizarProgreso() {
+    let respondidas = 0;
+
+    for (const pregunta of Object.keys(respuestas)) {
+        if (quiz.querySelector('input[name="' + pregunta + '"]:checked')) {
+            respondidas++;
+        }
+    }
+
+    contador.textContent = respondidas + " de 12 respondidas";
+    progreso.style.width = (respondidas / 12 * 100) + "%";
+}
+
+quiz.addEventListener("change", actualizarProgreso);
+
+function calificar() {
+    let puntos = 0;
+    let respondidas = 0;
+    const detalle = document.getElementById("detalle");
+
+    detalle.innerHTML = "";
+
+    for (const pregunta of Object.keys(respuestas)) {
+        const seleccion = quiz.querySelector(
+            'input[name="' + pregunta + '"]:checked'
+        );
+
+        if (!seleccion) {
+            continue;
+        }
+
+        respondidas++;
+
+        const item = document.createElement("li");
+        const acierto = seleccion.value === respuestas[pregunta];
+
+        if (acierto) {
+            puntos++;
+            item.className = "correcta";
+            item.textContent = nombres[pregunta] + ": ¡Correcto! " +
+                explicaciones[pregunta];
+        } else {
+            item.className = "incorrecta";
+            item.textContent = nombres[pregunta] +
+                ": Respuesta incorrecta. " + explicaciones[pregunta];
+        }
+
+        detalle.appendChild(item);
+    }
+
+    resultado.style.display = "block";
+
+    if (respondidas < 12) {
+        document.getElementById("tituloResultado").textContent =
+            "Has respondido " + respondidas + " de 12 ejercicios";
+
+        document.getElementById("mensajeResultado").textContent =
+            "Llevas " + puntos + " respuestas correctas entre las preguntas " +
+            "contestadas. Completa los ejercicios restantes para obtener tu " +
+            "calificación final.";
+    } else {
+        document.getElementById("tituloResultado").textContent =
+            "Tu puntuación: " + puntos + " de 12";
+
+        const porcentaje = Math.round(puntos / 12 * 100);
+
+        let mensaje = "";
+
+        if (puntos === 12) {
+            mensaje = "¡Excelente! Has dominado todos los desafíos matemáticos.";
+        } else if (puntos >= 9) {
+            mensaje = "¡Muy buen trabajo! Tienes una gran comprensión del tema.";
+        } else if (puntos >= 6) {
+            mensaje = "¡Vas por buen camino! Repasa los procedimientos y sigue practicando.";
+        } else {
+            mensaje = "Sigue practicando. Revisa los ejemplos y vuelve a intentarlo.";
+        }
+
+        document.getElementById("mensajeResultado").textContent =
+            mensaje + " Resultado: " + porcentaje + "%.";
+    }
+
+    resultado.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+}
+
+quiz.addEventListener("reset", function() {
+    setTimeout(function() {
+        resultado.style.display = "none";
+        document.getElementById("tituloResultado").textContent = "";
+        document.getElementById("mensajeResultado").textContent = "";
+        document.getElementById("detalle").innerHTML = "";
+        actualizarProgreso();
+    }, 0);
+});
+
+actualizarProgreso();
+</script>
+
+</body>
+</html>
